@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">개발용</string>
+
+    <string name="drawer_open">open navigation drawer</string>
+    <string name="drawer_close">close navigation drawer</string>
+
+    <string name="baseUrl">http://172.30.1.55:8887/</string>
+<!--    http://172.30.1.13:8887/-->
+<!--    http://172.30.1.55:8887/-->
+    <string name="category_spinner">카테고리</string>
+
+    <string name="tab_text_1">Wordle</string>
+    <string name="tab_text_2">Blank</string>
+
+    <string name="notification_channel_id">checkmate_msg</string>
+    <string name="notification_channel_name">checkmate</string>
+
+    <string name="appwidget_text">로그인 및 설정이 필요합니다</string>
+</resources>

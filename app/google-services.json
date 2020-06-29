@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "204837995115",
+    "firebase_url": "https://jjs-checkmate-dev-c39a1.firebaseio.com",
+    "project_id": "jjs-checkmate-dev-c39a1",
+    "storage_bucket": "jjs-checkmate-dev-c39a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204837995115:android:2b4304824a59da71e8a72e",
+        "android_client_info": {
+          "package_name": "com.example.jjscheckmate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "204837995115-ikcvel5m87np2ae18uq06afhept9hfo4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jjscheckmate",
+            "certificate_hash": "bffd80a4cb2ea986894ad5d82ee57858e09d64d9"
+          }
+        },
+        {
+          "client_id": "204837995115-19j4mp0pbfhs9qlvcasqseenirsl6j0b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDnZKrRjZ_Mumq1HzDtrFA0mIQ9hApy_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "204837995115-19j4mp0pbfhs9qlvcasqseenirsl6j0b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.jjscheckmate">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/devlogo"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true"
+        android:hardwareAccelerated="true"
+        android:name=".login.Session"
+        android:requestLegacyExternalStorage="true"
+        >
+
+        <activity android:name=".login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".MainActivity" />
+        <activity android:name=".mainActivityViwePager.moreViewActivity" />
+        <activity android:name=".form.FormActivity" />
+        <activity android:name=".reserve_UploadedFormEditableActivity" />
+
+        <activity android:name=".result.IndividualResultActivity" />
+        <activity android:name=".result.ResultActivity" />
+
+        <activity
+            android:name=".community.activity.CommunityMainActivity"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".service.WordleClickedActivity" />
+
+        <activity android:name=".community.activity.ChatingActivity" />
+        <activity android:name=".community.activity.InvitingActivity" />
+        <activity android:name=".community.activity.ChatServiceActivity" />
+        <activity android:name=".community.activity.SearchResultActivity" />
+
+        <activity android:name=".community.activity.MyGroupActivity" />
+        <activity android:name=".community.activity.GroupCreateActivity" />
+
+        <activity android:name=".community.activity.PostActivity"></activity>
+        <activity android:name=".community.activity.PostCreateActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity android:name=".community.activity.PostUpdateActivity" />
+
+        <service
+            android:name=".widget.WidgetRemoteViewsService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service
+            android:name=".widget.WidgetUpdateService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <activity android:name=".widget.WidgetConfigActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".widget.HomeSurveyWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name=".widget.HomeSurveyWidget.ACTION_REFRESH_PRESSED"/>
+                <action android:name=".widget.HomeSurveyWidget.ACTION_CONFIGURE_FINISHED"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/home_survey_widget_info" />
+        </receiver>
+
+    </application>
+
+
+</manifest>

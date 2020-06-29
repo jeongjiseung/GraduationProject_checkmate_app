@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:gravity="bottom"
+    android:background="#4E5052"
+    android:weightSum="1"
+    >
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:id="@+id/imvUserImg"
+        android:src="@drawable/tmp_mymymy"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:layout_margin="5dp"
+        />
+    <TextView
+        android:id="@+id/txtUserID"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:background="#393A3C"
+        android:text="사용자 닉네임"
+        android:textColor="#ffffff"
+        android:textSize="15dp"
+        android:padding="5dp"
+        />
+</LinearLayout>
