@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ import java.util.Date;
 
 public class WidgetListRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
+
+
 
     private ArrayList<UploadedSurveyDTO> datas;
     private ArrayList<Integer>  expectResponse = new ArrayList<>(); // for what?
@@ -59,7 +62,7 @@ public class WidgetListRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 .setIcon(R.drawable.ic_settings_24px)
                 .setCancelable(false)
                 .setView(container)
-                .setPositiveButton("설정", new DialogInterface.OnClickListener() {
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) { }
                 });
@@ -92,8 +95,10 @@ public class WidgetListRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             int et_getInt = Integer.parseInt(editText.getText().toString());
                             if(editText.getText() != null
                                     && datas.get(getAdapterPosition()).getResponse_cnt() <= et_getInt
-                                    && et_getInt >= 0) {
+                                    && et_getInt > 0) {
+
                                 expectResponse.set(getAdapterPosition(), et_getInt);
+
                                 Intent expectSetIntent = new Intent();
                                 expectSetIntent.setAction(WidgetConfigActivity.SET_EXPECT_RESPONSE);
                                 expectSetIntent.putExtra("expectValue", et_getInt);
@@ -161,4 +166,7 @@ public class WidgetListRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         notifyDataSetChanged();
     }
+
+    public ArrayList<UploadedSurveyDTO> showDatas() {return datas;} // temp
+
 }

@@ -40,25 +40,26 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
 
-    boolean fileReadPermission;
-    boolean fileWritePermission;
-    boolean internetPermission;
+    private boolean fileReadPermission;
+    private boolean fileWritePermission;
+    private boolean internetPermission;
 
     private Session loginSession;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth firebaseAuth;
 
-//    private SharedPreferences mPref;
-//    private SharedPreferences.Editor editor;
 
-    CheckBox chkAutoLogin;
+
+    private CheckBox chkAutoLogin;
     private Button btnGoSurvey;
     private Button btnGoCommunity;
     private SignInButton btnLogin;
     private LinearLayout autoLogin;
 
-    //Use for Widget Login
-    private SharedPreferences widgetLoginPref;
+    private SharedPreferences mPref; // 자동로그인
+    private SharedPreferences.Editor editor;
+
+    private SharedPreferences widgetLoginPref; // 위젯 쪽 로그인
     private SharedPreferences.Editor widgetLoginEdit;
 
     @Override
@@ -92,10 +93,11 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener((view)->{
             onClick(view);
         });
+
         chkAutoLogin=(CheckBox)findViewById(R.id.chkAutoLogin);
 
-//        mPref=getSharedPreferences("login",MODE_PRIVATE);
-//        editor=mPref.edit();
+        mPref=getSharedPreferences("login",MODE_PRIVATE);
+        editor=mPref.edit();
 
         widgetLoginPref=getSharedPreferences("widget_LoginOnApp", MODE_PRIVATE);
         widgetLoginEdit=widgetLoginPref.edit();
@@ -104,24 +106,39 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-//        if(mPref.getBoolean("isAutoLogin",false)){
-//            chkAutoLogin.setChecked(true);
-//        }
+
+        if(mPref.getBoolean("isAutoLogin",false)){
+            chkAutoLogin.setChecked(true);
+//            Log.d("mawang","LoginActivity onStart - 자동로그인");
+            signIn(); // goo login start
+        }else{
+            chkAutoLogin.setChecked(false);
+
+            btnGoSurvey.setVisibility(View.GONE);
+            btnGoCommunity.setVisibility(View.GONE);
+            btnLogin.setVisibility(View.VISIBLE);
+            autoLogin.setVisibility(View.VISIBLE);
+
+//            Log.d("mawang","LoginActivity onStart - 해제");
+        }
+
+
+
     }
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.chkAutoLogin:
-//                if(chkAutoLogin.isChecked()){
-//                    editor.putBoolean("isAutoLogin",true);
-//                    editor.apply();
-//                }else{
-//                    editor.putBoolean("isAutoLogin",false);
-//                    editor.apply();
-//                }
+                if(chkAutoLogin.isChecked()){
+                    editor.putBoolean("isAutoLogin",true);
+                    editor.apply();
+                }else{
+                    editor.putBoolean("isAutoLogin",false);
+                    editor.apply();
+                }
                 break;
             case R.id.sign_in_button:
-                signIn();
+                signIn(); // goo login start
                 break;
             case R.id.btnGoSurvey:
                 goToSurvey();
@@ -141,7 +158,6 @@ public class LoginActivity extends AppCompatActivity {
     private void goToCommunity() {
         Intent intent = new Intent(LoginActivity.this, CommunityMainActivity.class); // new
         startActivity(intent);
-//        Toast.makeText(getApplicationContext(),"goToCommunity",Toast.LENGTH_SHORT).show();
     }
 
     public void checkPermission(){
@@ -225,7 +241,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-//    private void saveLoginInfo(String userEmail,String userName,Uri userImage){
+//    private void saveLoginInfo(String userEmail,String userName,Uri userImage){ // why used?
 //        SharedPreferences login_info=getSharedPreferences("loginConfig",0);
 //        SharedPreferences.Editor editor=login_info.edit();
 //        editor.putString("userEmail",userEmail);

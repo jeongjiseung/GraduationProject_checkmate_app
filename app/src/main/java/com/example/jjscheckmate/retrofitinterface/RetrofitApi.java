@@ -8,9 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class RetrofitApi {
-    private static String baseUrl="http://172.30.1.55:8887/";
-//    http://172.30.1.13:8887/
-//    http://172.30.1.55:8887/
+    private static String baseUrl="http://172.30.1.43:8887/";
+
     private static Retrofit retrofit=null;
 
     public static RetrofitService getService(){

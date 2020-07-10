@@ -105,12 +105,13 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
     public void load(){
 
-//        Glide.with(this).load(getString(R.string.baseUrl)+"group/image/cover/"+groupID)
-//                .apply(new RequestOptions().transform(new CenterCrop(),new RoundedCorners(10)))
-//                .into(cover);
-//        Glide.with(this).load(getString(R.string.baseUrl)+"user/profile/select/"+ Session.getUserEmail() +".jpg")
-//                .apply(new RequestOptions().transform(new CenterCrop(),new RoundedCorners(30)))
-//                .into(profileImage);
+        Glide.with(this).load(getString(R.string.baseUrl)+"group/image/cover/"+groupID)
+                .apply(new RequestOptions().transform(new CenterCrop(),new RoundedCorners(10)))
+                .into(cover);
+
+        Glide.with(this).load(getString(R.string.baseUrl)+"user/profile/select/"+ Session.getUserEmail())
+                .apply(new RequestOptions().transform(new CenterCrop(),new RoundedCorners(30)))
+                .into(profileImage);
 
 
         RetrofitApi.getService().getPost(groupID,COUNT,offset).enqueue(new retrofit2.Callback<ArrayList<PostDTO>>(){

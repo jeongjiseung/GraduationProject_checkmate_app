@@ -4,6 +4,7 @@ package com.example.jjscheckmate.service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,7 +113,7 @@ public class WordleFragment extends Fragment {
                         d3.setOnTouchListener(new OnClickWithOnTouchListener(root.getContext(), new OnClickWithOnTouchListener.OnClickListener() {
                             @Override
                             public void onClick() {
-                                //Toast.makeText(getContext(),"WebViewClickTest",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(),"WebViewClickTest",Toast.LENGTH_SHORT).show();
 
                             }
                         }));
@@ -154,6 +155,8 @@ public class WordleFragment extends Fragment {
                     //Toast.makeText(getContext(), Integer.toString(datas.size()),Toast.LENGTH_LONG).show();
                     pageCount++;
                     getSurveyTitles();
+
+                    Log.d("mawang","WordleFragment getSurveyTitles - called passed");
                 }
                 else {isFinish = true;}
             }

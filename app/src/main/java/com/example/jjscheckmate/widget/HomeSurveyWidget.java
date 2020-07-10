@@ -56,8 +56,8 @@ public class HomeSurveyWidget extends AppWidgetProvider {
             editor.putBoolean("isRefreshPressed", true);
             editor.commit();
 
-//            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-//            startUpdateService(context, appWidgetManager);
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            startUpdateService(context, appWidgetManager);
 
         }
 
@@ -69,12 +69,12 @@ public class HomeSurveyWidget extends AppWidgetProvider {
         widget = new RemoteViews(context.getPackageName(), R.layout.home_survey_widget);
 
 //        Timer timer = new Timer();
-        //timer.scheduleAtFixedRate(new WidgetUpdateTimer(context, appWidgetManager),3000,3000);
-        // There may be multiple widgets active, so update all of them
+//        timer.scheduleAtFixedRate(new WidgetUpdateTimer(context, appWidgetManager),3000,3000);
 
-//        for (int appWidgetId : appWidgetIds) {
-//            startUpdateService(context, appWidgetManager);
-//        }
+//         There may be multiple widgets active, so update all of them
+        for (int appWidgetId : appWidgetIds) {
+            startUpdateService(context, appWidgetManager);
+        }
 
         Log.d("mawang","HomeSurveyWidget onUpdate");
         super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -95,47 +95,47 @@ public class HomeSurveyWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         Log.d("mawang","HomeSurveyWidget onDisabled");
-//        Intent intent = new Intent(context.getApplicationContext(), WidgetUpdateService.class);
-//        context.stopService(intent);
+        Intent intent = new Intent(context.getApplicationContext(), WidgetUpdateService.class);
+        context.stopService(intent);
         super.onDisabled(context);
     }
 
     private void startUpdateService(Context context, AppWidgetManager appWidgetManager){
         Log.d("mawang","HomeSurveyWidget startUpdateService");
 
-//        ComponentName componentName = new ComponentName(context, HomeSurveyWidget.class); // ??
-//
-//        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(componentName); // ??
-//
-//        Intent intent = new Intent(context.getApplicationContext(), WidgetUpdateService.class);
-//        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds); // ??
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // 오레오
-//            context.startForegroundService(intent);
-//        } else {
-//            context.startService(intent);
-//        }
+        ComponentName componentName = new ComponentName(context, HomeSurveyWidget.class); // ??
+
+        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(componentName); // ??
+
+        Intent intent = new Intent(context.getApplicationContext(), WidgetUpdateService.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds); // ??
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // 오레오
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
     }
 
-//    private class WidgetUpdateTimer extends TimerTask{
-//
-//        Context context;
-//        RemoteViews remoteViews;
-//        AppWidgetManager appWidgetManager;
-//        ComponentName componentName;
-//
-//        WidgetUpdateTimer(Context context, AppWidgetManager appWidgetManager){
-//            this.context = context;
-//            this.appWidgetManager = appWidgetManager;
-//            remoteViews = new RemoteViews(context.getPackageName(), R.layout.home_survey_widget);
-//            componentName = new ComponentName(context, HomeSurveyWidget.class);
-//        }
-//
-//        @Override
-//        public void run(){
-//            startUpdateService(context, appWidgetManager);
-//        }
-//    }
+    private class WidgetUpdateTimer extends TimerTask{
+
+        Context context;
+        RemoteViews remoteViews;
+        AppWidgetManager appWidgetManager;
+        ComponentName componentName;
+
+        WidgetUpdateTimer(Context context, AppWidgetManager appWidgetManager){
+            this.context = context;
+            this.appWidgetManager = appWidgetManager;
+            remoteViews = new RemoteViews(context.getPackageName(), R.layout.home_survey_widget);
+            componentName = new ComponentName(context, HomeSurveyWidget.class);
+        }
+
+        @Override
+        public void run(){
+            startUpdateService(context, appWidgetManager);
+        }
+    }
 
 }
 

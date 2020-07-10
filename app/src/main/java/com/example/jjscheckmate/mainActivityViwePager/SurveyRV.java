@@ -3,6 +3,7 @@ package com.example.jjscheckmate.mainActivityViwePager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,10 +84,11 @@ public class SurveyRV extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
         public void previewRequest() {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mContext.getString(R.string.baseUrl) + "survey/" + datas.get(getAdapterPosition()).get_id()));
-            mContext.startActivity(intent);
+//            mContext.startActivity(intent);
 
             // wordleCLickedActivity 에서 올 때 에러..
-            //            mContext.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+            mContext.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK)); // work
+            Log.d("mawang","SurveyRV onCreate - previewRequest called");
 
         }
         public void shareRequest() {
@@ -112,7 +114,6 @@ public class SurveyRV extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position){
         SurveyDTO vo = datas.get(position);
         ((ViewHolder)holder).txtTitle.setText(vo.getTitle());
-//        ((ViewHolder) holder).txtWriterName.setText(MainActivity.getUserName());
         ((ViewHolder) holder).txtWriterName.setText(Session.getUserName());
         ((ViewHolder)holder).txtTime.setText(getTime(vo.getTime()));
         ((ViewHolder) holder).txtResponse.setText(vo.getResponse_cnt() + " 참여"); //response
@@ -126,7 +127,7 @@ public class SurveyRV extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public String getTime(String str){
         long now= Long.valueOf(str);
         Date date=new Date(now);
-        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy MM월 dd hh:mm:ss");
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
         String time = simpleDate.format(date);
         return time;
     }

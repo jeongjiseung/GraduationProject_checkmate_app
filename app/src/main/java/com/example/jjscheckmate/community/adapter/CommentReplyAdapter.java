@@ -51,23 +51,23 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CommentReplyAdapter.CommentReplyHolder holder, int position) {
-//        if(items.get(position).getUserEmail()==null){
-//            Glide.with(holder.itemView.getContext())
-//                    .load(R.drawable.profile)
-//                    .apply(new RequestOptions().circleCrop()).into(holder.profileImage);
-//        }else{
-//            Glide.with(mContext).load(mContext.getString(R.string.baseUrl)+"user/profile/select/"+items.get(position).getUserEmail()+".jpg")
-//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                    .apply(new RequestOptions().circleCrop()).into(holder.profileImage);
-//        }
+        if(items.get(position).getUserEmail()==null){
+            Glide.with(holder.itemView.getContext())
+                    .load(R.drawable.profile)
+                    .apply(new RequestOptions().circleCrop()).into(holder.profileImage);
+        }else{
+            Glide.with(mContext).load(mContext.getString(R.string.baseUrl)+"user/profile/select/"+items.get(position).getUserEmail()) //+".jpg"
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .apply(new RequestOptions().circleCrop()).into(holder.profileImage);
+        }
 
         // 임시 방편
-        switch (orderIMG) {
-            case 1: // 레이디가가
-                Glide.with(mContext).load(R.drawable.tmp_profileimg)
-                        .into(holder.profileImage);
+//        switch (orderIMG) {
+//            case 1: // 레이디가가
+//                Glide.with(mContext).load(R.drawable.tmp_profileimg)
+//                        .into(holder.profileImage);
 //                orderIMG++;
-                break;
+//                break;
 //            case 2: // 메시가형이다
 //                Glide.with(mContext).load("https://www.lkp.news/data/photos/20200414/art_15857300809078_405b93.jpg")
 //                        .into(holder.profileImage);
@@ -86,7 +86,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
 //            default:
 //                orderIMG = 1;
 //                break;
-        }
+//        }
 
 
 //        holder.userEmail.setText(items.get(position).getUserEmail().split("@")[0]);

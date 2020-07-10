@@ -50,7 +50,7 @@ public class WidgetConfigActivity extends Activity {
 
     private static final int RC_SIGN_IN=1;
 
-    //private BroadcastReceiver setExpectBR; // for what?
+    private BroadcastReceiver setExpectBR; // for what?
     private Session loginSession;
 
     private GoogleSignInClient mGoogleSignInClient;
@@ -121,38 +121,47 @@ public class WidgetConfigActivity extends Activity {
 
             signInButton.setVisibility(View.INVISIBLE); // gone하면 구글이메일 안보이겠지?
             signIDText.setText(preferences.getString("LoginID", "(empty)"));
-            Log.d("mawang","WidgetConfigActivity onCreate - userEmail :"+signIDText.getText().toString());
+//            Log.d("mawang","WidgetConfigActivity onCreate - userEmail :"+signIDText.getText().toString());
 
             signIDText.setVisibility(View.VISIBLE);
             waitText.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
 
             data.clear();
+            widgetListRV.clear();
+            Log.d("mawang","WidgetConfigActivity onCreate - B data ="+data);
+            Log.d("mawang","WidgetConfigActivity onCreate - B widgetListRV ="+widgetListRV.showDatas());
+
             getSurveyList(preferences.getString("LoginID", "nothing"));
         }
 
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(SET_EXPECT_RESPONSE);
 
-//        setExpectBR = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                if(!data.isEmpty()){
-//                    expectValue = intent.getIntExtra("expectValue", 0);
-//                    rvPosition = intent.getIntExtra("position", 0);
-//                    editor.putInt("_id", data.get(rvPosition).get_id());
-//                    editor.putInt("expectValue", expectValue);
-//                    editor.putString("title", data.get(rvPosition).getTitle());
-//                    editor.putInt("response", data.get(rvPosition).getResponse_cnt());
-//                    editor.putString("time",data.get(rvPosition).getTime());
-//                    editor.apply();
-//
-//                    isReceived = true;
-//
-//                }
-//            }
-//        };
-//        registerReceiver(setExpectBR, intentFilter);
+
+        setExpectBR = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(!data.isEmpty()){
+                    expectValue = intent.getIntExtra("expectValue", 0);
+                    rvPosition = intent.getIntExtra("position", 0);
+                    Log.d("mawang","WidgetConfigActivity onCreate BroadcastReceiver - expectValue ="+expectValue);
+                    Log.d("mawang","WidgetConfigActivity onCreate BroadcastReceiver - rvPosition ="+rvPosition);
+
+
+                    editor.putInt("_id", data.get(rvPosition).get_id());
+                    editor.putInt("expectValue", expectValue);
+                    editor.putString("title", data.get(rvPosition).getTitle());
+                    editor.putInt("response", data.get(rvPosition).getResponse_cnt());
+                    editor.putString("time",data.get(rvPosition).getTime());
+                    editor.apply();
+
+                    isReceived = true;
+
+                }
+            }
+        };
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(SET_EXPECT_RESPONSE); // ??
+        registerReceiver(setExpectBR, intentFilter);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras(); // ??
@@ -163,24 +172,25 @@ public class WidgetConfigActivity extends Activity {
                     AppWidgetManager.INVALID_APPWIDGET_ID); // ??
         }
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while(!isReceived){}
-//                appWidgetManager.updateAppWidget(mAppWidgetId, remoteViews);
-//
-//                Intent serviceIntent = new Intent(getApplicationContext(), WidgetUpdateService.class);
-//                ComponentName componentName = new ComponentName(getApplicationContext(), HomeSurveyWidget.class);
-//                int[] allWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
-//                serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
-//                getApplicationContext().startService(serviceIntent);
-//
-//                Intent resultValue = new Intent();
-//                resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, mAppWidgetId);
-//                setResult(RESULT_OK, resultValue);
-//                finish();
-//            }
-//        }).start();
+        new Thread(new Runnable() { // for what?
+            @Override
+            public void run() {
+                while(!isReceived){}
+                appWidgetManager.updateAppWidget(mAppWidgetId, remoteViews);
+
+                Intent serviceIntent = new Intent(getApplicationContext(), WidgetUpdateService.class);
+                ComponentName componentName = new ComponentName(getApplicationContext(), HomeSurveyWidget.class); // ??
+                int[] allWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
+                serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
+                getApplicationContext().startService(serviceIntent);
+
+                Intent resultValue = new Intent();
+                resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, mAppWidgetId);
+                setResult(RESULT_OK, resultValue);
+                finish();
+            }
+        }).start();
+
     }
 
     @Override
@@ -241,12 +251,12 @@ public class WidgetConfigActivity extends Activity {
 
     public void getSurveyList(String userEmail){
         Log.d("mawang","WidgetConfigActivity getSurveyList - userEmail :"+userEmail);
-// 메일주소는 문제없으나.. java.net.ConnectException: Failed to connect to 가 나오는중
+
         RetrofitApi.getService().getSurveyList(userEmail).enqueue(new retrofit2.Callback<ArrayList<UploadedSurveyDTO>>() {
             @Override
             public void onResponse(retrofit2.Call<ArrayList<UploadedSurveyDTO>> call, retrofit2.Response<ArrayList<UploadedSurveyDTO>> response) {
                 widgetListRV.addItem(response.body());
-                Log.d("mawang","WidgetConfigActivity getSurveyList - response.body() = "+response.body().toString());
+//                Log.d("mawang","WidgetConfigActivity getSurveyList - response.body() = "+response.body().toString());
             }
             @Override
             public void onFailure(retrofit2.Call<ArrayList<UploadedSurveyDTO>> call, Throwable t) {
@@ -261,7 +271,7 @@ public class WidgetConfigActivity extends Activity {
     @Override
     public void onDestroy(){
         super.onDestroy();
-//        unregisterReceiver(setExpectBR);
+        unregisterReceiver(setExpectBR); // memory leak protect
         Log.d("mawang","WidgetConfigActivity onDestroy - called");
     }
 

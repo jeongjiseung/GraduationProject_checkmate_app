@@ -2,6 +2,7 @@ package com.example.jjscheckmate.login;
 
 import android.app.Application;
 import android.net.Uri;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +21,10 @@ public class Session extends Application {
         this.userEmail=userEmail;
         this.userName=userName;
         this.userImage=userImage;
+
+        Log.d("mawang", "Session setSession - email : " + this.userEmail);
+        Log.d("mawang", "Session setSession - name : " + this.userName);
+        Log.d("mawang", "Session setSession - uri : " + this.userImage);
     }
 
     public static String getUserEmail() {

@@ -62,23 +62,24 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
 
     @Override
     public void onBindViewHolder(@NonNull CommentAdapter.CommentHolder holder, int position) {
-//        if(items.get(position).getUserEmail()==null){
-//            Glide.with(holder.itemView.getContext())
-//                    .load(R.drawable.profile)
-//                    .apply(new RequestOptions().circleCrop()).into(holder.profileImage);
-//        }else{
-//            Glide.with(mContext).load(mContext.getString(R.string.baseUrl)+"user/profile/select/"+items.get(position).getUserEmail()+".jpg")
-//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                    .apply(new RequestOptions().circleCrop()).into(holder.profileImage);
-//        }
+
+        if(items.get(position).getUserEmail()==null){
+            Glide.with(holder.itemView.getContext())
+                    .load(R.drawable.profile)
+                    .apply(new RequestOptions().circleCrop()).into(holder.profileImage);
+        }else{
+            Glide.with(mContext).load(mContext.getString(R.string.baseUrl)+"user/profile/select/"+items.get(position).getUserEmail()) // +".jpg"
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .apply(new RequestOptions().circleCrop()).into(holder.profileImage);
+        }
 
         // 임시 방편
-        switch (orderIMG) {
-            case 1: // 레이디가가
-                Glide.with(mContext).load(R.drawable.tmp_profileimg)
-                        .into(holder.profileImage);
+//        switch (orderIMG) {
+//            case 1: // 레이디가가
+//                Glide.with(mContext).load(R.drawable.tmp_profileimg)
+//                        .into(holder.profileImage);
 //                orderIMG++;
-                break;
+//                break;
 //            case 2: // 마라도나
 //                Glide.with(mContext).load("https://lh3.googleusercontent.com/proxy/CGK2CUrv8H8uqI_A3QjKlHvCetMinzbWvmL-U2YryR2btELrenOsYV3ug8N65QyMoTCEhP401w8y5UwSHntIrx-tj3Jtac18cdaAg2oI7ba7suXG19TW7HV6Wlk4AhaxWDqmD10CyjCDaezBqcnXm-yJSCC6tkM")
 //                        .into(holder.profileImage);
@@ -87,7 +88,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
 //           default:
 //                orderIMG = 1;
 //                break;
-        }
+//        }
 
 
 

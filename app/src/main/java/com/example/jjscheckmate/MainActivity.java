@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.example.jjscheckmate.login.Session;
 import com.example.jjscheckmate.mainActivityViwePager.MainVPAdapter;
 import com.google.android.material.navigation.NavigationView;  // ??
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -35,13 +37,14 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
 
-
-
     private ViewPager viewPager;
     private MainVPAdapter mainVPAdapter;
     private TabLayout mTabLayout;
 
     public static final int categoryNumber=110;
+
+    private SharedPreferences mPref; // 자동로그인
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +59,11 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.navigation);
 
-//        url=getString(R.string.baseUrl);
-
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
-
-
 
         NavigationView navigationView=(NavigationView)findViewById(R.id.navigationView);
         View NavHeader = navigationView.getHeaderView(0); // LinearLayout
@@ -80,35 +79,19 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.closeDrawer(GravityCompat.START); // touch 하면 닫히게
 
                 switch (menuItem.getItemId()){
-                    case R.id.offline: {
-//                        Intent intent = new Intent(getApplicationContext(), old_OfflineFormActivity.class);
-//                        intent.putExtra("userEmail", userEmail);
-//                        startActivity(intent);
-                        Toast.makeText(getApplicationContext(), "offline closed", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    case R.id.template: {
-                        Toast.makeText(getApplicationContext(), "template", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    case R.id.notification: {
-                        Toast.makeText(getApplicationContext(), "notification", Toast.LENGTH_SHORT).show();
-                    }
-                    case R.id.help:{
-                        Toast.makeText(getApplicationContext(), "help", Toast.LENGTH_SHORT).show();
 
-                    }
-                    case R.id.share: {
-//                        Intent intent = new Intent();
-//                        intent.setAction(Intent.ACTION_SEND);
-//                        intent.setType("text/plain");
-//                        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.baseUrl) + "survey/6");
-//                        Intent chooser = Intent.createChooser(intent, "공유");
-//                        startActivity(chooser);
+                    case R.id.logout: {
+//                        Toast.makeText(getApplicationContext(), "logout", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(getApplicationContext(), "share 뭘 공유해", Toast.LENGTH_SHORT).show();
+                        FirebaseAuth.getInstance().signOut();
+                        editor.remove("isAutoLogin"); // 자동로그인 해제하고
+                        editor.commit();
+                        // 액티비티 나가기, 첫 로그인 화면으로 , 어차피 로그인 안되어있으면 할게 없음.
+                        finish();
+
                         break;
                     }
+
                 }
                 return true;
             }
@@ -132,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
+
+        mPref=getSharedPreferences("login",MODE_PRIVATE);
+        editor=mPref.edit();
 
     }
 

@@ -75,6 +75,7 @@ public class WordleClickedActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(retrofit2.Call<ArrayList<SurveyDTO>> call, Throwable t) {
+                Log.d("mawang", "WordleClickedActivity getKeywordSurveyList - onFailure:"+t.getMessage());
             }
         });
     }
